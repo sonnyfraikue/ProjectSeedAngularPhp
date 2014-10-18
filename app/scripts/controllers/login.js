@@ -8,7 +8,7 @@
  * Controller of the projectSeedAngularPhpApp
  */
 angular.module('projectSeedAngularPhpApp')
-  .controller('LoginCtrl', function ($scope, $http) {
+  .controller('LoginCtrl', function ($scope, $rootScope, AUTH_EVENTS, AuthService, $http) {
 
     function createUnknownError(status) {
       return {
@@ -17,39 +17,17 @@ angular.module('projectSeedAngularPhpApp')
         description: 'No details available'
       };
     }
-    function login(credentials){
-      console.log(credentials);
-    }
 
     $scope.awesomeThings = [];
     $scope.loading = true;
-    $scope.testVar  = 'sonnyboy hello';
+    $scope.credentials  = {
+      username:'',
+      password:''
+    };
 
-    // Get awesome things list
-    $http({method: 'GET', url: '/api/features'}).
+    $scope.login =  function(credentials){
+      //AuthService.login(credentials).then(function)
+    };
 
-      success(function (data) {
-        $scope.loading = false;
-        $scope.awesomeThings = data;
-
-        // Get description of each thing
-        $scope.awesomeThings.forEach(function (thing) {
-          thing.loading = true;
-
-          $http({method: 'GET', url: thing.href}).
-            success(function (data) {
-              thing.loading = false;
-              thing.description = data.description;
-            }).
-            error(function (data, status) {
-              thing.loading = false;
-              thing.error = data && data.description ? data : createUnknownError(status);
-            });
-        });
-      }).
-
-      error(function (data, status) {
-        $scope.loading = false;
-        $scope.error = data && data.description ? data : createUnknownError(status);
-      });
+    
   });
